@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "./Header";
+import Footer from "./Footer";
+import Img from "./Img";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +18,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="h-full">
+      {/* Make sure the body is constrained to the full viewport height */}
+      <body className={`${inter.className} h-full overflow-hidden`}>
+        {/* Set up a flexbox layout with a full viewport height */}
+        <div className="flex flex-col h-full">
+          {/* Header stays at the top */}
+          <Header />
+
+          {/* Main content fills the remaining space */}
+          <div className="flex-grow grid grid-cols-3 overflow-hidden">
+            <Img className="col-span-1" />
+            <div className="col-span-2 overflow-auto">
+              {children}
+            </div>
+          </div>
+
+          {/* Footer stays at the bottom */}
+          <Footer className="mt-auto" />
+        </div>
+      </body>
     </html>
   );
 }
